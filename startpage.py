@@ -1,7 +1,19 @@
+import copy
 from User_system import Account
 import csv
 import turtle
 import random
+import game1
+import game2
+
+
+# To add other person manually
+# name = Account(username,email,password)
+# User_data.append(name.all_information())
+
+
+s = turtle.Screen()
+s.title('PIP PADA PIP')
 
 
 class Start:
@@ -29,6 +41,11 @@ class Start:
             password = turtle.textinput("Sign Up", "Input password")
             watashino = Account(name, email, password)
             User_data.append(watashino.all_information())
+            dee = copy.deepcopy(User_data)
+            print(User_data)
+            with open(csv_file_path, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(dee)
 
         if -75 < x < 75 and -30 < y < 20:
             name_or_mail = turtle.textinput("Sign In", "Input username or email")
@@ -52,33 +69,30 @@ class Start:
             turtle.dot(random.randint(1, 10))
 
     def button(self):
+        # Project Name
         turtle.goto(0, 300)
         turtle.color("pink")
         turtle.write("Pip pada Pip", move=True, align="center", font=('Courier', 30, 'normal'))
         turtle.color("deep pink")
-
+        # Sign Up
         turtle.goto(-75, 30)
-        turtle.pendown()
-        for i in range(2):
-            turtle.forward(150)
-            turtle.left(90)
-            turtle.forward(50)
-            turtle.left(90)
-        turtle.penup()
+        self.drawsquare(150, 50)
         turtle.goto(0, 45)
         turtle.write('Sign Up', move=True, align="center", font=('Courier', 20, 'normal'))
-
+        # Sign In
         turtle.goto(-75, -30)
-        turtle.pendown()
-        for i in range(2):
-            turtle.forward(150)
-            turtle.left(90)
-            turtle.forward(50)
-            turtle.left(90)
-        turtle.penup()
+        self.drawsquare(150, 50)
         print(turtle.position())
         turtle.goto(0, -15)
         turtle.write('Sign In', move=True, align="center", font=('Courier', 20, 'normal'))
+
+    def drawsquare(self, width, height):
+        turtle.pendown()
+        for i in range(2):
+            turtle.forward(width)
+            turtle.left(90)
+            turtle.left(90)
+        turtle.penup()
 
 
 class Mainchoose:
@@ -101,6 +115,47 @@ class Mainchoose:
         turtle.goto(450, 300)
         turtle.write(f"Score:{User_data[self.index][4]}", move=True, align="center", font=('Courier', 20, 'normal'))
 
+        omg = Start()
+        omg.star()
+        turtle.color("light blue")
+        # left
+        turtle.goto(-300, 200)
+        omg.drawsquare(200, 50)
+        turtle.goto(-200, 215)
+        turtle.write("Flappy Turtle", move=True, align="center", font=('Courier', 20, 'normal'))
+        # right
+        turtle.goto(100, 200)
+        omg.drawsquare(200, 50)
+        turtle.goto(200, 215)
+        turtle.write("Turtle to go", move=True, align="center", font=('Courier', 20, 'normal'))
+        # select
+        s = turtle.Screen()
+        s.onscreenclick(self.selectgame)
+
+    def selectgame(self, x, y):
+        if -300 < x < -100 and 200 < y < 250:
+            turtle.clearscreen()
+            d = game1.FlappyTurtle()
+            d.run()
+            sc = d.player.score
+            User_data[self.index][4] += sc
+            dee = copy.deepcopy(User_data)
+            print(User_data)
+            with open(csv_file_path, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(dee)
+        elif 150 < x < 300 and 200 < y < 250:
+            turtle.clearscreen()
+            d = game2.FastOrNot()
+            d.run()
+            sc = d.score
+            dee = copy.deepcopy(User_data)
+            print(User_data)
+            with open(csv_file_path, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(dee)
+
+
 
 user1 = Account("Alice", "alice@gmail.com", "Madonna", score=1001)
 user2 = Account("Bob", "bobby999@gmail.com", "MoreandMoreMoney", score=999)
@@ -114,8 +169,4 @@ User_data.append(user3.all_information())
 
 ww = Start()
 ww.run()
-print(User_data)
-with open(csv_file_path, mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerows(User_data)
 turtle.done()
