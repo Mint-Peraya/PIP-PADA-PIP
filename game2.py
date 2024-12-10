@@ -137,6 +137,6 @@ class FastOrNot:
     def left(self):
         self.player.setheading(180)
 
-# game = FastOrNot
+# game = FastOrNot()
 # game.run()
 # turtle.done()

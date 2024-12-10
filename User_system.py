@@ -29,7 +29,4 @@ class Account:
             self.score += amount
 
     def all_information(self):
-        return [self.account_number, self.username, self.email,self.password, self.score]
-
-
-
+        return [self.account_number, self.username, self.email, self.password, self.score]
