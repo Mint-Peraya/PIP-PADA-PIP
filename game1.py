@@ -1,7 +1,7 @@
 import turtle
 import time
 import random
-
+ 
 
 class FlappyTurtle:
     def __init__(self):
